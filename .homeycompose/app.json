@@ -1,0 +1,28 @@
+{
+  "id": "org.xojs.franky",
+  "version": "1.0.0",
+  "compatibility": ">=12.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Franky"
+  },
+  "description": {
+    "en": "Adds support for FranklinWH"
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Tim Wilkinson",
+    "email": "tim.wilkinson@me.com"
+  }
+}

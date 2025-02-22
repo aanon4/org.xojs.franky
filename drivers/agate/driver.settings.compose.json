@@ -1,0 +1,20 @@
+[
+  {
+    "type": "group",
+    "label": { "en": "FranklinWH Credentials" },
+    "children": [
+      {
+        "id": "username",
+        "type": "text",
+        "label": { "en": "Username" },
+        "hint": { "en": "FranklinWH username" }
+      },
+      {
+        "id": "password",
+        "type": "password",
+        "label": { "en": "Password" },
+        "hint": { "en": "FranklinWH password" }
+      }
+    ]
+  }
+]

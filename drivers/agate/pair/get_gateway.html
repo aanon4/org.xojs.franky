@@ -1,0 +1,65 @@
+<style type="text/css">
+    .agate-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 50px;
+    }
+    .agate-wrap p {
+        text-align: center;
+    }
+    .agate-form {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 0;
+        background: #eeeeee;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 1em;
+    }
+    .agate-id-wrap {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 250px;
+    }
+    #agate-id {
+        appearance: none;
+        background: transparent;
+        border: none;
+
+        padding: 5px;
+        box-sizing: border-box;
+
+        font-size: 14px;
+        font-weight: 400;
+        font-family: monospace;
+        color: black;
+
+        width: 100%;
+        flex-shrink: 0;
+        flex-grow: 0;
+        appearance: textfield;
+    }
+</style>
+<div class="agate-wrap">
+    <div>
+        <p>Enter the 20 character ID of the aGate.</p>
+        <div class="agate-form">
+            <div class="agate-id-wrap">
+                <input id="agate-id" class="hy-nostyle" type="string" placeholder="00000000000000000000" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    Homey.setTitle("Enter aGate ID");
+    const gateway = document.getElementById("agate-id");
+    gateway.addEventListener("change", () => {
+        Homey.emit("set_gateway", { gateway: gateway.value });
+    });
+</script>
