@@ -191,7 +191,9 @@
         "measure_power.consumption",
         "measure_power.solar",
         "measure_power.grid",
-        "operating_mode"
+        "operating_mode",
+        "meter_power.imported",
+        "meter_power.exported"
       ],
       "platforms": [
         "local"
@@ -205,7 +207,10 @@
         "xlarge": "/drivers/agate/assets/images/xlarge.jpg"
       },
       "energy": {
-        "homeBattery": true
+        "homeBattery": true,
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.imported",
+        "cumulativeExportedCapability": "meter_power.exported"
       },
       "pair": [
         {
@@ -272,6 +277,16 @@
         "measure_power.generator": {
           "title": {
             "en": "Generator Power"
+          }
+        },
+        "meter_power.imported": {
+          "title": {
+            "en": "Imported Energy"
+          }
+        },
+        "meter_power.exported": {
+          "title": {
+            "en": "Exported Energy"
           }
         }
       },

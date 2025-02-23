@@ -81,6 +81,8 @@ module.exports = class AGateDevice extends Homey.Device {
             if (this.hasCapability("measure_power.generator")) {
                 this.setCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
             }
+            this.setCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
+            this.setCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
             if (this.switches) {
                 await this.api.updateSmartSwitches(this.switches);
                 for (let i = 0; i < this.switches.length; i++) {
