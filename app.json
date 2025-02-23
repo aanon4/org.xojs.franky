@@ -2,7 +2,7 @@
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "org.xojs.franky",
   "version": "1.0.0",
-  "compatibility": ">=12.0.0",
+  "compatibility": ">=12.2.0",
   "sdk": 3,
   "platforms": [
     "local"
@@ -26,6 +26,158 @@
     "name": "Tim Wilkinson",
     "email": "tim.wilkinson@me.com"
   },
+  "flow": {
+    "triggers": [
+      {
+        "id": "mode_changed",
+        "title": {
+          "en": "Mode changed"
+        },
+        "tokens": [
+          {
+            "name": "newMode",
+            "type": "string",
+            "title": {
+              "en": "New Mode"
+            }
+          },
+          {
+            "name": "oldMode",
+            "type": "string",
+            "title": {
+              "en": "Old Mode"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "sw1_on",
+        "title": {
+          "en": "Turn on Smart Switch 1 (sw1)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "sw1_off",
+        "title": {
+          "en": "Turn off Smart Switch 1 (sw1)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "sw2_on",
+        "title": {
+          "en": "Turn on Smart Switch 2 (sw2)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate&capabilities=onoff.sw2"
+          }
+        ]
+      },
+      {
+        "id": "sw2_off",
+        "title": {
+          "en": "Turn off Smart Switch 2 (sw2)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate&capabilities=onoff.sw2"
+          }
+        ]
+      },
+      {
+        "id": "sw3_on",
+        "title": {
+          "en": "Turn on Smart Switch 3 (sw3)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "sw3_off",
+        "title": {
+          "en": "Turn off Smart Switch 3 (sw3)"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "mode_tou",
+        "title": {
+          "en": "Set mode to Time Of Use"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "mode_self",
+        "title": {
+          "en": "Set mode to Self-Consumption"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      },
+      {
+        "id": "mode_emer",
+        "title": {
+          "en": "Set mode to Emergency Backup"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=agate"
+          }
+        ]
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
@@ -37,7 +189,8 @@
         "measure_battery",
         "measure_power.consumption",
         "measure_power.solar",
-        "measure_power.grid"
+        "measure_power.grid",
+        "operating_mode"
       ],
       "platforms": [
         "local"
@@ -114,6 +267,11 @@
           "title": {
             "en": "Grid Power"
           }
+        },
+        "measure_power.generator": {
+          "title": {
+            "en": "Generator Power"
+          }
         }
       },
       "id": "agate",
@@ -148,5 +306,38 @@
         }
       ]
     }
-  ]
+  ],
+  "capabilities": {
+    "operating_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Mode"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker",
+      "uiQuickAction": false,
+      "icon": "/assets/operating_mode.svg",
+      "values": [
+        {
+          "id": "tou",
+          "title": {
+            "en": "Time of Use"
+          }
+        },
+        {
+          "id": "self",
+          "title": {
+            "en": "Self-generated"
+          }
+        },
+        {
+          "id": "emer",
+          "title": {
+            "en": "Emergency Backup"
+          }
+        }
+      ]
+    }
+  }
 }

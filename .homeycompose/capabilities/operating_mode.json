@@ -1,0 +1,31 @@
+{
+    "type": "enum",
+    "title": {
+        "en": "Mode"
+    },
+    "getable": true,
+    "setable": true,
+    "uiComponent": "picker",
+    "uiQuickAction": false,
+    "icon": "/assets/operating_mode.svg",
+    "values": [
+        {
+            "id": "tou",
+            "title": { 
+                "en": "Time of Use"
+            }
+        },
+        {
+            "id": "self",
+            "title": { 
+                "en": "Self-generated"
+            }
+        },
+        {
+            "id": "emer",
+            "title": { 
+                "en": "Emergency Backup"
+            }
+        }
+    ]
+}

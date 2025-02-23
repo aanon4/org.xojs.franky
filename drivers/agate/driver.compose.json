@@ -8,7 +8,8 @@
     "measure_battery",
     "measure_power.consumption",
     "measure_power.solar",
-    "measure_power.grid"
+    "measure_power.grid",
+    "operating_mode"
   ],
   "platforms": [
     "local"
@@ -76,6 +77,11 @@
     "measure_power.grid": {
       "title": {
         "en": "Grid Power"
+      }
+    },
+    "measure_power.generator": {
+      "title": {
+        "en": "Generator Power"
       }
     }
   }

@@ -1,0 +1,84 @@
+{
+    "triggers": [
+        {
+            "id": "mode_changed",
+            "title": {
+                "en": "Mode changed"
+            },
+            "tokens": [
+                {
+                    "name": "newMode",
+                    "type": "string",
+                    "title": {
+                        "en": "New Mode"
+                    }
+                },
+                {
+                    "name": "oldMode",
+                    "type": "string",
+                    "title": {
+                        "en": "Old Mode"
+                    }
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "id": "sw1_on",
+            "title": {
+                "en": "Turn on Smart Switch 1 (sw1)"
+            }
+        },
+        {
+            "id": "sw1_off",
+            "title": {
+                "en": "Turn off Smart Switch 1 (sw1)"
+            }
+        },
+        {
+            "id": "sw2_on",
+            "title": {
+                "en": "Turn on Smart Switch 2 (sw2)"
+            },
+            "$filter": "capabilities=onoff.sw2"
+        },
+        {
+            "id": "sw2_off",
+            "title": {
+                "en": "Turn off Smart Switch 2 (sw2)"
+            },
+            "$filter": "capabilities=onoff.sw2"
+        },
+        {
+            "id": "sw3_on",
+            "title": {
+                "en": "Turn on Smart Switch 3 (sw3)"
+            }
+        },
+        {
+            "id": "sw3_off",
+            "title": {
+                "en": "Turn off Smart Switch 3 (sw3)"
+            }
+        },
+        {
+            "id": "mode_tou",
+            "title": {
+                "en": "Set mode to Time Of Use"
+            }
+        },
+        {
+            "id": "mode_self",
+            "title": {
+                "en": "Set mode to Self-Consumption"
+            }
+        },
+        {
+            "id": "mode_emer",
+            "title": {
+                "en": "Set mode to Emergency Backup"
+            }
+        }
+    ]
+}
