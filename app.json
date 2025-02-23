@@ -10,17 +10,18 @@
   "name": {
     "en": "Franky"
   },
+  "brandColor": "#D28B3D",
   "description": {
-    "en": "Adds support for FranklinWH"
+    "en": "FranklinWH home energy management"
   },
   "category": [
     "energy"
   ],
   "permissions": [],
   "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "small": "/assets/images/small.jpg",
+    "large": "/assets/images/large.jpg",
+    "xlarge": "/assets/images/xlarge.jpg"
   },
   "author": {
     "name": "Tim Wilkinson",
@@ -31,7 +32,7 @@
       {
         "id": "mode_changed",
         "title": {
-          "en": "Mode changed"
+          "en": "The operating mode changed"
         },
         "tokens": [
           {
@@ -140,7 +141,7 @@
       {
         "id": "mode_tou",
         "title": {
-          "en": "Set mode to Time Of Use"
+          "en": "Set operating mode to Time Of Use"
         },
         "args": [
           {
@@ -153,7 +154,7 @@
       {
         "id": "mode_self",
         "title": {
-          "en": "Set mode to Self-Consumption"
+          "en": "Set operating mode to Self-Consumption"
         },
         "args": [
           {
@@ -166,7 +167,7 @@
       {
         "id": "mode_emer",
         "title": {
-          "en": "Set mode to Emergency Backup"
+          "en": "Set operating mode to Emergency Backup"
         },
         "args": [
           {
@@ -199,9 +200,9 @@
         "cloud"
       ],
       "images": {
-        "small": "/drivers/agate/assets/images/small.png",
-        "large": "/drivers/agate/assets/images/large.png",
-        "xlarge": "/drivers/agate/assets/images/xlarge.png"
+        "small": "/drivers/agate/assets/images/small.jpg",
+        "large": "/drivers/agate/assets/images/large.jpg",
+        "xlarge": "/drivers/agate/assets/images/xlarge.jpg"
       },
       "energy": {
         "homeBattery": true
@@ -211,7 +212,7 @@
           "id": "login_credentials",
           "template": "login_credentials",
           "options": {
-            "logo": "logo.png",
+            "logo": "../assets/logo.png",
             "title": {
               "en": "FranklinWH Login"
             },

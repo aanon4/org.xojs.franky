@@ -3,7 +3,7 @@
         {
             "id": "mode_changed",
             "title": {
-                "en": "Mode changed"
+                "en": "The operating mode changed"
             },
             "tokens": [
                 {
@@ -65,19 +65,19 @@
         {
             "id": "mode_tou",
             "title": {
-                "en": "Set mode to Time Of Use"
+                "en": "Set operating mode to Time Of Use"
             }
         },
         {
             "id": "mode_self",
             "title": {
-                "en": "Set mode to Self-Consumption"
+                "en": "Set operating mode to Self-Consumption"
             }
         },
         {
             "id": "mode_emer",
             "title": {
-                "en": "Set mode to Emergency Backup"
+                "en": "Set operating mode to Emergency Backup"
             }
         }
     ]

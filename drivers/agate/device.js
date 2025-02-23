@@ -87,15 +87,7 @@ module.exports = class AGateDevice extends Homey.Device {
                     this.setCapabilityValue(`onoff.${this.switches[i].id}`, this.switches[i].state).catch(this.error);
                 }
             }
-            const newMode = await this.api.getMode();
-            const oldMode = this.getCapabilityValue("operating_mode");
-            if (newMode != oldMode) {
-                this.setCapabilityValue("operating_mode", newMode).catch(this.error);
-                this.homey.flow.getTriggerCard("mode_changed").trigger({
-                    newMode: newMode,
-                    oldMode: oldMode
-                }).error(this.error);
-            }
+            this.setCapabilityValue("operating_mode", await this.api.getMode()).catch(this.error);
             this.setAvailable().catch(this.error);
             this.retry = 0;
         }
@@ -142,7 +134,14 @@ module.exports = class AGateDevice extends Homey.Device {
                 case "tou":
                 case "self":
                 case "emer":
-                    await this.api.setMode(value);
+                    const oldMode = await this.api.getMode();
+                    if (oldMode != value) {
+                        await this.api.setMode(value);
+                        this.homey.flow.getTriggerCard("mode_changed").trigger({
+                            newMode: value,
+                            oldMode: oldMode
+                        }).error(this.error);
+                    }
                     break;
                 default:
                     break;
