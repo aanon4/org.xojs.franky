@@ -73,13 +73,13 @@ module.exports = class AGateDevice extends Homey.Device {
         this.log("AGateDevice update");
         try {
             const status = await this.api.getAGateStatus();
-            this.setCapabilityValue("measure_power", -status.batteryOut).catch(this.error);
+            this.setCapabilityValue("measure_power", -status.batteryOut * 1000).catch(this.error);
             this.setCapabilityValue("measure_battery", status.chargePercentage).catch(this.error);
-            this.setCapabilityValue("measure_power.consumption", status.loadOut).catch(this.error);
-            this.setCapabilityValue("measure_power.grid", -status.gridOut).catch(this.error);
-            this.setCapabilityValue("measure_power.solar", status.solarIn).catch(this.error);
+            this.setCapabilityValue("measure_power.consumption", status.loadOut * 1000).catch(this.error);
+            this.setCapabilityValue("measure_power.grid", -status.gridOut * 1000).catch(this.error);
+            this.setCapabilityValue("measure_power.solar", status.solarIn * 1000).catch(this.error);
             if (this.hasCapability("measure_power.generator")) {
-                this.setCapabilityValue("measure_power.generator", status.generatorIn).catch(this.error);
+                this.setCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
             }
             if (this.switches) {
                 await this.api.updateSmartSwitches(this.switches);
