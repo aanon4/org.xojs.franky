@@ -12,7 +12,7 @@
   },
   "brandColor": "#D28B3D",
   "description": {
-    "en": "FranklinWH home energy management"
+    "en": "FranklinWH home energy management."
   },
   "category": [
     "energy"
@@ -29,6 +29,9 @@
   },
   "homeyCommunityTopicId": 131444,
   "source": "https://github.com/aanon4/org.xojs.franky",
+  "bugs": {
+    "url": "https://github.com/aanon4/org.xojs.franky/issues"
+  },
   "flow": {
     "triggers": [
       {
