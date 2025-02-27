@@ -90,6 +90,8 @@ module.exports = class AGateDevice extends Homey.Device {
                 }
             }
             this.setCapabilityValue("operating_mode", await this.api.getMode()).catch(this.error);
+            this.setCapabilityValue("reserve_set", await this.api.getReserve()).catch(this.error);
+            this.setCapabilityValue("grid_online", await this.api.isGridOnline()).catch(this.error);
             this.setAvailable().catch(this.error);
             this.retry = 0;
         }
@@ -139,14 +141,32 @@ module.exports = class AGateDevice extends Homey.Device {
                     const oldMode = await this.api.getMode();
                     if (oldMode != value) {
                         await this.api.setMode(value);
+                        // Update the reserve which can be different in different modes
+                        this.setCapabilityValue("reserve_set", await this.api.getReserve()).catch(this.error);
                         this.homey.flow.getTriggerCard("mode_changed").trigger({
                             newMode: value,
                             oldMode: oldMode
-                        }).error(this.error);
+                        }).catch(this.error);
                     }
                     break;
                 default:
                     break;
+            }
+        });
+        this.registerCapabilityListener("reserve_set", async (value) => {
+            if (this.getCapabilityValue("operating_mode") !== "emer") {
+                this.api.setReserve(value).catch(this.error);
+            }
+            else {
+                this.setCapabilityValue("reserve_set", 100).catch(this.error);
+            }
+        });
+        this.registerCapabilityListener("grid_online", async (value) => {
+            if (value) {
+                this.homey.flow.getTriggerCard("grid_on").trigger().catch(this.error);
+            }
+            else {
+                this.homey.flow.getTriggerCard("grid_off").trigger().catch(this.error);
             }
         });
     }

@@ -21,6 +21,18 @@
                     }
                 }
             ]
+        },
+        {
+            "id": "grid_off",
+            "title": {
+                "en": "Grid power off"
+            }
+        },
+        {
+            "id": "grid_on",
+            "title": {
+                "en": "Grid power on"
+            }
         }
     ],
     "actions": [

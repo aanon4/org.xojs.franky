@@ -1,103 +1,113 @@
 {
-  "name": {
-    "en": "FranklinWH"
-  },
-  "class": "battery",
-  "capabilities": [
-    "measure_power",
-    "measure_battery",
-    "measure_power.consumption",
-    "measure_power.solar",
-    "measure_power.grid",
-    "operating_mode",
-    "meter_power.imported",
-    "meter_power.exported"
-  ],
-  "platforms": [
-    "local"
-  ],
-  "connectivity": [
-    "cloud"
-  ],
-  "images": {
-    "small": "{{driverAssetsPath}}/images/small.jpg",
-    "large": "{{driverAssetsPath}}/images/large.jpg",
-    "xlarge": "{{driverAssetsPath}}/images/xlarge.jpg"
-  },
-  "energy": {
-    "homeBattery": true,
-    "cumulative": true,
-    "cumulativeImportedCapability": "meter_power.imported",
-    "cumulativeExportedCapability": "meter_power.exported"
-  },
-  "pair": [
-    {
-      "id": "login_credentials",
-      "template": "login_credentials",
-      "options": {
-        "logo": "../assets/logo.png",
-        "title": {
-          "en": "FranklinWH Login"
+    "name": {
+        "en": "FranklinWH"
+    },
+    "class": "battery",
+    "capabilities": [
+        "measure_power",
+        "measure_battery",
+        "measure_power.consumption",
+        "measure_power.solar",
+        "measure_power.grid",
+        "operating_mode",
+        "meter_power.imported",
+        "meter_power.exported",
+        "reserve_set",
+        "grid_online"
+    ],
+    "platforms": [
+        "local"
+    ],
+    "connectivity": [
+        "cloud"
+    ],
+    "images": {
+        "small": "{{driverAssetsPath}}/images/small.jpg",
+        "large": "{{driverAssetsPath}}/images/large.jpg",
+        "xlarge": "{{driverAssetsPath}}/images/xlarge.jpg"
+    },
+    "energy": {
+        "homeBattery": true,
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.imported",
+        "cumulativeExportedCapability": "meter_power.exported"
+    },
+    "pair": [
+        {
+            "id": "login_credentials",
+            "template": "login_credentials",
+            "options": {
+                "logo": "../assets/logo.png",
+                "title": {
+                    "en": "FranklinWH Login"
+                },
+                "usernameLabel": {
+                    "en": "E-mail address"
+                },
+                "usernamePlaceholder": {
+                    "en": "john@doe.com"
+                },
+                "passwordLabel": {
+                    "en": "Password"
+                },
+                "passwordPlaceholder": {
+                    "en": "Password"
+                }
+            }
         },
-        "usernameLabel": { "en": "E-mail address" },
-        "usernamePlaceholder": { "en": "john@doe.com" },
-        "passwordLabel": { "en": "Password" },
-        "passwordPlaceholder": { "en": "Password" }
-      }
-    },
-    {
-      "id": "get_gateway",
-      "navigation": {
-        "next": "list_devices"
-      }
-    },
-    {
-      "id": "list_devices",
-      "template": "list_devices",
-      "navigation": {
-        "next": "add_devices"
-      }
-    },
-    {
-      "id": "add_devices",
-      "template": "add_devices"
+        {
+            "id": "get_gateway",
+            "navigation": {
+                "next": "list_devices"
+            }
+        },
+        {
+            "id": "list_devices",
+            "template": "list_devices",
+            "navigation": {
+                "next": "add_devices"
+            }
+        },
+        {
+            "id": "add_devices",
+            "template": "add_devices"
+        }
+    ],
+    "capabilitiesOptions": {
+        "measure_power": {
+            "title": {
+                "en": "Battery Power"
+            }
+        },
+        "measure_power.consumption": {
+            "title": {
+                "en": "Home Load"
+            }
+        },
+        "measure_power.solar": {
+            "title": {
+                "en": "Solar Production"
+            }
+        },
+        "measure_power.grid": {
+            "title": {
+                "en": "Grid Power"
+            }
+        },
+        "measure_power.generator": {
+            "title": {
+                "en": "Generator Power"
+            }
+        },
+        "meter_power.imported": {
+            "title": {
+                "en": "Imported Energy"
+            }
+        },
+        "meter_power.exported": {
+            "title": {
+                "en": "Exported Energy"
+            }
+        }
     }
-  ],
-  "capabilitiesOptions": {
-    "measure_power": {
-      "title": {
-        "en": "Battery Power"
-      }
-    },
-    "measure_power.consumption": {
-      "title": {
-        "en": "Home Load"
-      }
-    },
-    "measure_power.solar": {
-      "title": {
-        "en": "Solar Production"
-      }
-    },
-    "measure_power.grid": {
-      "title": {
-        "en": "Grid Power"
-      }
-    },
-    "measure_power.generator": {
-      "title": {
-        "en": "Generator Power"
-      }
-    },
-    "meter_power.imported": {
-      "title": {
-        "en": "Imported Energy"
-      }
-    },
-    "meter_power.exported": {
-      "title": {
-        "en": "Exported Energy"
-      }
-    }
-  }
 }

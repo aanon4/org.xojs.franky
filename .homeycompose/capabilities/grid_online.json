@@ -1,0 +1,15 @@
+{
+    "type": "boolean",
+    "title": {
+        "en": "Power Grid"
+    },
+    "titleTrue": {
+        "en": "Grid power on"
+    },
+    "titleFalse": {
+        "en": "Grid power off"
+    },
+    "getable": true,
+    "setable": false,
+    "icon": "/assets/grid_online.svg"
+}
