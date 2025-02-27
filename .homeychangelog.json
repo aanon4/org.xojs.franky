@@ -10,5 +10,8 @@
   },
   "1.1.0": {
     "en": "Added support to set/get power reserve."
+  },
+  "1.1.1": {
+    "en": "Added support for Grid on/off detection."
   }
 }
