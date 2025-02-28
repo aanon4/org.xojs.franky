@@ -16,5 +16,8 @@
   },
   "1.1.2": {
     "en": "Improve api reliability"
+  },
+  "1.1.3": {
+    "en": "Updated with athom homey-vectors"
   }
 }
