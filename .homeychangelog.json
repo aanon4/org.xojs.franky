@@ -13,5 +13,8 @@
   },
   "1.1.1": {
     "en": "Added support for Grid on/off detection."
+  },
+  "1.1.2": {
+    "en": "Improve api reliability"
   }
 }
