@@ -13,9 +13,7 @@ module.exports = class AGateDevice extends Homey.Device {
      */
     async onInit() {
         this.log('AGateDevice has been initialized');
-        const settings = this.getSettings();
-        const data = this.getData();
-        this.api = await FWH(settings.username, settings.password, data.gateway);
+        await this.getAPI();
         this.interval = null;
         await this.controls();
         await this.update();
@@ -61,6 +59,21 @@ module.exports = class AGateDevice extends Homey.Device {
         this.setInterval();
     }
 
+    async getAPI() {
+        if (!this.api) {
+            const settings = this.getSettings();
+            const data = this.getData();
+            this.api = await FWH(settings.username, settings.password, data.gateway);
+        }
+        this.setAvailable().catch(this.error);
+        return this.api;
+    }
+
+    async resetAPI(msg) {
+        this.api = null;
+        this.setUnavailable(msg).catch(this.error);
+    }
+
     setInterval(interval) {
         this.retry = 0;
         this.homey.clearInterval(this.interval);
@@ -72,7 +85,8 @@ module.exports = class AGateDevice extends Homey.Device {
     async update() {
         this.log("AGateDevice update");
         try {
-            const status = await this.api.getAGateStatus();
+            const api = await this.getAPI();
+            const status = await api.getAGateStatus();
             this.setCapabilityValue("measure_power", -status.batteryOut * 1000).catch(this.error);
             this.setCapabilityValue("measure_battery", status.chargePercentage).catch(this.error);
             this.setCapabilityValue("measure_power.consumption", status.loadOut * 1000).catch(this.error);
@@ -84,21 +98,20 @@ module.exports = class AGateDevice extends Homey.Device {
             this.setCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
             this.setCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
             if (this.switches) {
-                await this.api.updateSmartSwitches(this.switches);
+                await api.updateSmartSwitches(this.switches);
                 for (let i = 0; i < this.switches.length; i++) {
                     this.setCapabilityValue(`onoff.${this.switches[i].id}`, this.switches[i].state).catch(this.error);
                 }
             }
-            this.setCapabilityValue("operating_mode", await this.api.getMode()).catch(this.error);
-            this.setCapabilityValue("reserve_set", await this.api.getReserve()).catch(this.error);
-            this.setCapabilityValue("grid_online", await this.api.isGridOnline()).catch(this.error);
-            this.setAvailable().catch(this.error);
+            this.setCapabilityValue("operating_mode", await api.getMode()).catch(this.error);
+            this.setCapabilityValue("reserve_set", await api.getReserve()).catch(this.error);
+            this.setCapabilityValue("grid_online", await api.isGridOnline()).catch(this.error);
             this.retry = 0;
         }
         catch (e) {
             this.retry++;
             if (this.retry === MAX_RETRY) {
-                this.setUnavailable(e.message).catch(this.error);
+                this.resetAPI(e.message);
                 this.retry = 0;
             }
         }
@@ -106,14 +119,15 @@ module.exports = class AGateDevice extends Homey.Device {
 
     async controls() {
         this.log("AGateDevice controls");
-        const accessories = await this.api.getAccessoryList();
+        const api = await this.getAPI();
+        const accessories = await api.getAccessoryList();
         for (let i = 0; i < accessories.length; i++) {
             switch (accessories[i].accessoryName) {
                 case "Generator":
                     await this.addCapability("measure_power.generator");
                     break;
                 case "Smart circuit":
-                    const smart = await this.api.getSmartSwitches();
+                    const smart = await api.getSmartSwitches();
                     this.switches = smart;
                     for (let i = 0; i < smart.length; i++) {
                         const sw = smart[i];
@@ -127,7 +141,7 @@ module.exports = class AGateDevice extends Homey.Device {
                         await this.setCapabilityValue(cap, sw.state);
                         this.registerCapabilityListener(cap, async (value) => {
                             sw.state = !!value;
-                            await this.api.setSmartSwitches(this.switches);
+                            api.setSmartSwitches(this.switches).catch(this.error);
                         });
                     }
                     break;
@@ -138,15 +152,22 @@ module.exports = class AGateDevice extends Homey.Device {
                 case "tou":
                 case "self":
                 case "emer":
-                    const oldMode = await this.api.getMode();
-                    if (oldMode != value) {
-                        await this.api.setMode(value);
-                        // Update the reserve which can be different in different modes
-                        this.setCapabilityValue("reserve_set", await this.api.getReserve()).catch(this.error);
-                        this.homey.flow.getTriggerCard("mode_changed").trigger({
-                            newMode: value,
-                            oldMode: oldMode
-                        }).catch(this.error);
+                    try {
+                        const api = await this.getAPI();
+                        const oldMode = await api.getMode();
+                        if (oldMode != value) {
+                            await api.setMode(value);
+                            // Update the reserve which can be different in different modes
+                            const res = await api.getReserve();
+                            this.setCapabilityValue("reserve_set", res).catch(this.error);
+                            this.homey.flow.getTriggerCard("mode_changed").trigger({
+                                newMode: value,
+                                oldMode: oldMode
+                            }).catch(this.error);
+                        }
+                    }
+                    catch (e) {
+                        this.resetAPI(e.message);
                     }
                     break;
                 default:
@@ -155,7 +176,13 @@ module.exports = class AGateDevice extends Homey.Device {
         });
         this.registerCapabilityListener("reserve_set", async (value) => {
             if (this.getCapabilityValue("operating_mode") !== "emer") {
-                this.api.setReserve(value).catch(this.error);
+                try {
+                    const api = await this.getAPI();
+                    await api.setReserve(value);
+                }
+                catch (e) {
+                    this.resetAPI(e.message);
+                }
             }
             else {
                 this.setCapabilityValue("reserve_set", 100).catch(this.error);
