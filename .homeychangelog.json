@@ -19,5 +19,8 @@
   },
   "1.1.3": {
     "en": "Updated with athom homey-vectors"
+  },
+  "1.1.4": {
+    "en": "Fix actions triggering capability listeners"
   }
 }
