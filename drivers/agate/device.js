@@ -138,7 +138,7 @@ module.exports = class AGateDevice extends Homey.Device {
                             setOnDim: false,
                             uiQuickAction: false
                         });
-                        await this.setCapabilityValue(cap, sw.state);
+                        this.setCapabilityValue(cap, sw.state).catch(this.error);
                         this.registerCapabilityListener(cap, async (value) => {
                             sw.state = !!value;
                             api.setSmartSwitches(this.switches).catch(this.error);
