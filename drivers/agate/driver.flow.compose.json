@@ -35,6 +35,65 @@
             }
         }
     ],
+    "conditions": [
+        {
+            "id": "is_sw1_on",
+            "title": {
+                "en": "Smart Switch 1 (sw1) !{{is on|is off}}"
+            }
+        },
+        {
+            "id": "is_sw2_on",
+            "title": {
+                "en": "Smart Switch 2 (sw2) !{{is on|is off}}"
+            },
+            "$filter": "capabilities=onoff.sw2"
+        },
+        {
+            "id": "is_sw3_on",
+            "title": {
+                "en": "Smart Switch 3 (sw3) !{{is on|is off}}"
+            }
+        },
+        {
+            "id": "is_mode",
+            "title": {
+                "en": "Operating mode is ..."
+            },
+            "titleFormatted": {
+                "en": "Operating mode is [[mode]]"
+            },
+            "args": [
+                {
+                    "type": "dropdown",
+                    "name": "mode",
+                    "title": {
+                        "en": "mode"
+                    },
+                    "values": [
+                        {
+                            "id": "tou",
+                            "title": {
+                                "en": "Time Of Use"
+                            }
+                        },
+                        {
+                            "id": "self",
+                            "title": {
+                                "en": "Self Consumption"
+                            }
+                        },
+                        {
+                            "id": "emer",
+                            "title": {
+                                "en": "Emergency Backup"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
     "actions": [
         {
             "id": "sw1_on",
@@ -83,7 +142,7 @@
         {
             "id": "mode_self",
             "title": {
-                "en": "Set operating mode to Self-Consumption"
+                "en": "Set operating mode to Self Consumption"
             }
         },
         {

@@ -198,4 +198,16 @@ module.exports = class AGateDevice extends Homey.Device {
         });
     }
 
+    async getSmartSwitches() {
+        if (!this.switches) {
+            return null;
+        }
+        await (await this.getAPI()).updateSmartSwitches(this.switches);
+        return this.switches;
+    }
+
+    async getMode() {
+        return (await this.getAPI()).getMode();
+    }
+
 };

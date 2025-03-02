@@ -98,6 +98,24 @@ module.exports = class AGateDriver extends Homey.Driver {
             args.device.triggerCapabilityListener(`operating_mode`, "emer").catch(this.error);
             return true;
         });
+        this.homey.flow.getConditionCard("is_sw1_on").registerRunListener(async (args, state) => {
+            const sw = (await args.device.getSmartSwitches()).find(sw => sw.id == "sw1");
+            return sw.state;
+        });
+        this.homey.flow.getConditionCard("is_sw2_on").registerRunListener(async (args, state) => {
+            if (args.device.hasCapability("onoff.sw2")) {
+                const sw = (await args.device.getSmartSwitches()).find(sw => sw.id == "sw2");
+                return sw.state;
+            }
+            return false;
+        });
+        this.homey.flow.getConditionCard("is_sw3_on").registerRunListener(async (args, state) => {
+            const sw = (await args.device.getSmartSwitches()).find(sw => sw.id == "sw3");
+            return sw.state;
+        });
+        this.homey.flow.getConditionCard("is_mode").registerRunListener(async (args, state) => {
+            return args.mode == await args.device.getMode();
+        });
     }
 
 };
