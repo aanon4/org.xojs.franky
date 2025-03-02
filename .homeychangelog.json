@@ -22,5 +22,8 @@
   },
   "1.1.4": {
     "en": "Fix actions triggering capability listeners"
+  },
+  "1.1.5": {
+    "en": "New flow condition cards."
   }
 }
