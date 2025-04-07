@@ -13,6 +13,18 @@ module.exports = class AGateDevice extends Homey.Device {
      */
     async onInit() {
         this.log('AGateDevice has been initialized');
+        if (!this.hasCapability("measure_power.battery")) {
+            this.addCapability("measure_power.battery").catch(this.log);
+        }
+        if (this.hasCapability("measure_power.grid")) {
+            this.removeCapability("measure_power.grid").catch(this.log);
+        }
+        if (!this.hasCapability("meter_power.battery.exported")) {
+            this.addCapability("meter_power.battery.exported").catch(this.log);
+        }
+        if (!this.hasCapability("meter_power.battery.imported")) {
+            this.addCapability("meter_power.battery.imported").catch(this.log);
+        }
         await this.getAPI();
         this.interval = null;
         await this.controls();
@@ -87,14 +99,16 @@ module.exports = class AGateDevice extends Homey.Device {
         try {
             const api = await this.getAPI();
             const status = await api.getAGateStatus();
-            this.setCapabilityValue("measure_power", -status.batteryOut * 1000).catch(this.error);
+            this.setCapabilityValue("measure_power.battery", status.batteryOut * 1000).catch(this.error);
             this.setCapabilityValue("measure_battery", status.chargePercentage).catch(this.error);
             this.setCapabilityValue("measure_power.consumption", status.loadOut * 1000).catch(this.error);
-            this.setCapabilityValue("measure_power.grid", -status.gridOut * 1000).catch(this.error);
+            this.setCapabilityValue("measure_power", status.gridOut * 1000).catch(this.error);
             this.setCapabilityValue("measure_power.solar", status.solarIn * 1000).catch(this.error);
             if (this.hasCapability("measure_power.generator")) {
                 this.setCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
             }
+            this.setCapabilityValue("meter_power.battery.imported", status.batteryInKWh).catch(this.error);
+            this.setCapabilityValue("meter_power.battery.exported", status.batteryOutKWh).catch(this.error);
             this.setCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
             this.setCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
             if (this.switches) {

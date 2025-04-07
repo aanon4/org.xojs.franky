@@ -4,12 +4,14 @@
     },
     "class": "battery",
     "capabilities": [
-        "measure_power",
         "measure_battery",
+        "measure_power.battery",
         "measure_power.consumption",
         "measure_power.solar",
-        "measure_power.grid",
+        "measure_power",
         "operating_mode",
+        "meter_power.battery.imported",
+        "meter_power.battery.exported",
         "meter_power.imported",
         "meter_power.exported",
         "reserve_set",
@@ -29,6 +31,8 @@
     "energy": {
         "homeBattery": true,
         "cumulative": true,
+        "meterPowerImportedCapability": "meter_power.battery.imported",
+        "meterPowerExportedCapability": "meter_power.battery.exported",
         "cumulativeImportedCapability": "meter_power.imported",
         "cumulativeExportedCapability": "meter_power.exported"
     },
@@ -74,7 +78,7 @@
         }
     ],
     "capabilitiesOptions": {
-        "measure_power": {
+        "measure_power.battery": {
             "title": {
                 "en": "Battery Power"
             }
@@ -89,7 +93,7 @@
                 "en": "Solar Production"
             }
         },
-        "measure_power.grid": {
+        "measure_power": {
             "title": {
                 "en": "Grid Power"
             }
@@ -107,6 +111,16 @@
         "meter_power.exported": {
             "title": {
                 "en": "Exported Energy"
+            }
+        },
+        "meter_power.battery.imported": {
+            "title": {
+                "en": "Battery In"
+            }
+        },
+        "meter_power.battery.exported": {
+            "title": {
+                "en": "Battery Out"
             }
         }
     }
