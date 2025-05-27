@@ -25,13 +25,13 @@
         {
             "id": "grid_off",
             "title": {
-                "en": "Grid power off"
+                "en": "Grid power turns off"
             }
         },
         {
             "id": "grid_on",
             "title": {
-                "en": "Grid power on"
+                "en": "Grid power turns on"
             }
         }
     ],
