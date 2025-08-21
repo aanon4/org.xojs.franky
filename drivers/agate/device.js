@@ -133,6 +133,7 @@ module.exports = class AGateDevice extends Homey.Device {
 
     async updateCapabilityValue(capability, newvalue) {
         const oldvalue = this.getCapabilityValue(capability);
+        //this.log(`updateCapabilityValue: ${capability} ${oldvalue} ${newvalue}`);
         if (oldvalue != newvalue) {
             await this.setCapabilityValue(capability, newvalue);
             this.triggerCapabilityListener(capability, newvalue).catch(_ => false);
@@ -180,7 +181,7 @@ module.exports = class AGateDevice extends Homey.Device {
                         // Update the reserve which can be different in different modes
                         const res = await api.getReserve();
                         this.setCapabilityValue("reserve_set", res).catch(this.error);
-                        this.homey.flow.getTriggerCard("mode_changed").trigger({ newMode: value }).catch(this.error);
+                        this.homey.flow.getDeviceTriggerCard("mode_changed").trigger(this, { newMode: value }).catch(this.error);
                     }
                     catch (e) {
                         this.resetAPI(e.message);
@@ -206,10 +207,10 @@ module.exports = class AGateDevice extends Homey.Device {
         });
         this.registerCapabilityListener("grid_online", async (value) => {
             if (value) {
-                this.homey.flow.getTriggerCard("grid_on").trigger().catch(this.error);
+                this.homey.flow.getDeviceTriggerCard("grid_on").trigger(this).catch(this.error);
             }
             else {
-                this.homey.flow.getTriggerCard("grid_off").trigger().catch(this.error);
+                this.homey.flow.getDeviceTriggerCard("grid_off").trigger(this).catch(this.error);
             }
         });
     }
