@@ -37,5 +37,8 @@
   },
   "1.2.3": {
     "en": "Fix interactions with Franklin app."
+  },
+  "1.2.4": {
+    "en": "Use DeviceTrigger rather than Trigger"
   }
 }
