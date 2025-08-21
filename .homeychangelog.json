@@ -34,5 +34,8 @@
   },
   "1.2.2": {
     "en": "Fix triggering of flows"
+  },
+  "1.2.3": {
+    "en": "Fix interactions with Franklin app."
   }
 }
