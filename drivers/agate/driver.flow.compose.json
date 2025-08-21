@@ -12,13 +12,6 @@
                     "title": {
                         "en": "New Mode"
                     }
-                },
-                {
-                    "name": "oldMode",
-                    "type": "string",
-                    "title": {
-                        "en": "Old Mode"
-                    }
                 }
             ]
         },

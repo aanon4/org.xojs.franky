@@ -176,17 +176,11 @@ module.exports = class AGateDevice extends Homey.Device {
                 case "emer":
                     try {
                         const api = await this.getAPI();
-                        const oldMode = await api.getMode();
-                        if (oldMode != value) {
-                            await api.setMode(value);
-                            // Update the reserve which can be different in different modes
-                            const res = await api.getReserve();
-                            this.setCapabilityValue("reserve_set", res).catch(this.error);
-                            this.homey.flow.getTriggerCard("mode_changed").trigger({
-                                newMode: value,
-                                oldMode: oldMode
-                            }).catch(this.error);
-                        }
+                        await api.setMode(value);
+                        // Update the reserve which can be different in different modes
+                        const res = await api.getReserve();
+                        this.setCapabilityValue("reserve_set", res).catch(this.error);
+                        this.homey.flow.getTriggerCard("mode_changed").trigger({ newMode: value }).catch(this.error);
                     }
                     catch (e) {
                         this.resetAPI(e.message);
