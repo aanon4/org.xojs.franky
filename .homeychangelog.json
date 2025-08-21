@@ -31,5 +31,8 @@
   },
   "1.2.1": {
     "en": "Minor revision to trigger language."
+  },
+  "1.2.2": {
+    "en": "Fix triggering of flows"
   }
 }
