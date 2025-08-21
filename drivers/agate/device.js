@@ -99,27 +99,27 @@ module.exports = class AGateDevice extends Homey.Device {
         try {
             const api = await this.getAPI();
             const status = await api.getAGateStatus();
-            this.setCapabilityValue("measure_power.battery", status.batteryOut * 1000).catch(this.error);
-            this.setCapabilityValue("measure_battery", status.chargePercentage).catch(this.error);
-            this.setCapabilityValue("measure_power.consumption", status.loadOut * 1000).catch(this.error);
-            this.setCapabilityValue("measure_power", status.gridOut * 1000).catch(this.error);
-            this.setCapabilityValue("measure_power.solar", status.solarIn * 1000).catch(this.error);
+            this.updateCapabilityValue("measure_power.battery", status.batteryOut * 1000).catch(this.error);
+            this.updateCapabilityValue("measure_battery", status.chargePercentage).catch(this.error);
+            this.updateCapabilityValue("measure_power.consumption", status.loadOut * 1000).catch(this.error);
+            this.updateCapabilityValue("measure_power", status.gridOut * 1000).catch(this.error);
+            this.updateCapabilityValue("measure_power.solar", status.solarIn * 1000).catch(this.error);
             if (this.hasCapability("measure_power.generator")) {
-                this.setCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
+                this.updateCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
             }
-            this.setCapabilityValue("meter_power.battery.imported", status.batteryInKWh).catch(this.error);
-            this.setCapabilityValue("meter_power.battery.exported", status.batteryOutKWh).catch(this.error);
-            this.setCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
-            this.setCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
+            this.updateCapabilityValue("meter_power.battery.imported", status.batteryInKWh).catch(this.error);
+            this.updateCapabilityValue("meter_power.battery.exported", status.batteryOutKWh).catch(this.error);
+            this.updateCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
+            this.updateCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
             if (this.switches) {
                 await api.updateSmartSwitches(this.switches);
                 for (let i = 0; i < this.switches.length; i++) {
-                    this.setCapabilityValue(`onoff.${this.switches[i].id}`, this.switches[i].state).catch(this.error);
+                    this.updateCapabilityValue(`onoff.${this.switches[i].id}`, this.switches[i].state).catch(this.error);
                 }
             }
-            this.setCapabilityValue("operating_mode", await api.getMode()).catch(this.error);
-            this.setCapabilityValue("reserve_set", await api.getReserve()).catch(this.error);
-            this.setCapabilityValue("grid_online", await api.isGridOnline()).catch(this.error);
+            this.updateCapabilityValue("operating_mode", await api.getMode()).catch(this.error);
+            this.updateCapabilityValue("reserve_set", await api.getReserve()).catch(this.error);
+            this.updateCapabilityValue("grid_online", await api.isGridOnline()).catch(this.error);
             this.retry = 0;
         }
         catch (e) {
@@ -128,6 +128,14 @@ module.exports = class AGateDevice extends Homey.Device {
                 this.resetAPI(e.message);
                 this.retry = 0;
             }
+        }
+    }
+
+    async updateCapabilityValue(capability, newvalue) {
+        const oldvalue = this.getCapabilityValue(capability);
+        if (oldvalue != newvalue) {
+            await this.setCapabilityValue(capability, newvalue);
+            this.triggerCapabilityListener(capability, newvalue).catch(_ => false);
         }
     }
 
