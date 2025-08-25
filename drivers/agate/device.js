@@ -25,6 +25,11 @@ module.exports = class AGateDevice extends Homey.Device {
         if (!this.hasCapability("meter_power.battery.imported")) {
             this.addCapability("meter_power.battery.imported").catch(this.log);
         }
+        [ "meter_power.battery.imported", "meter_power.battery.exported", "meter_power.imported", "meter_power.exported" ].forEach(cap => {
+            if (!this.getStoreValue(`base.${cap}`)) {
+                this.setStoreValue(`base.${cap}`, 0).catch(this.log);
+            }
+        });
         await this.getAPI();
         this.interval = null;
         await this.controls();
@@ -107,10 +112,10 @@ module.exports = class AGateDevice extends Homey.Device {
             if (this.hasCapability("measure_power.generator")) {
                 this.updateCapabilityValue("measure_power.generator", status.generatorIn * 1000).catch(this.error);
             }
-            this.updateCapabilityValue("meter_power.battery.imported", status.batteryInKWh).catch(this.error);
-            this.updateCapabilityValue("meter_power.battery.exported", status.batteryOutKWh).catch(this.error);
-            this.updateCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
-            this.updateCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
+            this.updateCumulativeCapabilityValue("meter_power.battery.imported", status.batteryInKWh).catch(this.error);
+            this.updateCumulativeCapabilityValue("meter_power.battery.exported", status.batteryOutKWh).catch(this.error);
+            this.updateCumulativeCapabilityValue("meter_power.imported", status.gridInKWh).catch(this.error);
+            this.updateCumulativeCapabilityValue("meter_power.exported", status.gridOutKWh).catch(this.error);
             if (this.switches) {
                 await api.updateSmartSwitches(this.switches);
                 for (let i = 0; i < this.switches.length; i++) {
@@ -138,6 +143,18 @@ module.exports = class AGateDevice extends Homey.Device {
             await this.setCapabilityValue(capability, newvalue);
             this.triggerCapabilityListener(capability, newvalue).catch(_ => false);
         }
+    }
+
+    async updateCumulativeCapabilityValue(capability, newvalue) {
+        let basevalue = this.getStoreValue(`base.${capability}`);
+        const oldvalue = this.getCapabilityValue(capability);
+        if (basevalue + newvalue < oldvalue) {
+            basevalue = oldvalue;
+            this.setStoreValue(`base.${capability}`, basevalue).catch(this.error);
+
+        }
+        await this.setCapabilityValue(capability, basevalue + newvalue);
+        this.triggerCapabilityListener(capability, basevalue + newvalue).catch(_ => false);
     }
 
     async controls() {
