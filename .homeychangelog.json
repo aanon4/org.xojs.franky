@@ -40,5 +40,8 @@
   },
   "1.2.4": {
     "en": "Use DeviceTrigger rather than Trigger"
+  },
+  "1.2.5": {
+    "en": "Meters always go up"
   }
 }
